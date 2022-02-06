@@ -1,4 +1,5 @@
 import pyautogui
+import random
 import time
 import dotenv
 import os
@@ -20,8 +21,8 @@ def conectarFunc():
             pyautogui.click(searchForHighConfidenceImage("assinar"), duration = float(os.getenv("DURATION")))
         if procurarImagemSemRetornarErro("entrarNoModoCacaAoChefe"):
             pyautogui.click(searchForHighConfidenceImage("entrarNoModoCacaAoChefe"), duration = float(os.getenv("DURATION"))) 
-        if procurarImagemSemRetornarErro("1de10"):
-            pyautogui.click(searchForHighConfidenceImage("1de10"), duration = float(os.getenv("DURATION")))
+        if procurarImagemSemRetornarErro("bossDisponivel"):
+            pyautogui.click(searchForHighConfidenceImage("bossDisponivel"), duration = float(os.getenv("DURATION")))
             connect = False
         contador += 1
 
@@ -174,8 +175,8 @@ def searchForResult():
                 if procurarImagemSemRetornarErro("Vitoria"):
                     pyautogui.click(searchForHighConfidenceImage("Vitoria"), duration = float(os.getenv("DURATION")))
             time.sleep(10)
-            if procurarImagemSemRetornarErro("1de10"):
-                pyautogui.click(searchForHighConfidenceImage("1de10"), duration = float(os.getenv("DURATION")))
+            if procurarImagemSemRetornarErro("bossDisponivel"):
+                pyautogui.click(searchForHighConfidenceImage("bossDisponivel"), duration = float(os.getenv("DURATION")))
 
 
 def selectHeroInTheMenu():
@@ -200,7 +201,12 @@ while True:
     try:
         conectarFunc()
         toHunt()
-        time.sleep(5500)
+        pyautogui.keyDown("ctrl")
+        pyautogui.press("f5")
+        pyautogui.keyUp("ctrl")
+        print("Entrando em modo de espera por 1h:30m")
+        timeSleep = random.randint(5500, 11000)
+        time.sleep(timeSleep)
     except BaseException as err:
         print("Ocorreu um ERRO:")
         print(err)
