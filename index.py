@@ -6,11 +6,14 @@ import os
 dotenv.load_dotenv()
 
 def conectarFunc():
+    contador = 0
     connect = True
     pyautogui.keyDown("ctrl")
     pyautogui.press("f5")
     pyautogui.keyUp("ctrl")
     while connect == True:
+        if contador == 50:
+            raise Exception("Erro ao tentar realizar o login")
         if procurarImagemSemRetornarErro("metamask"):
             pyautogui.click(searchForHighConfidenceImage("metamask"), duration = float(os.getenv("DURATION")))
         if procurarImagemSemRetornarErro("assinar"):
@@ -20,6 +23,7 @@ def conectarFunc():
         if procurarImagemSemRetornarErro("1de10"):
             pyautogui.click(searchForHighConfidenceImage("1de10"), duration = float(os.getenv("DURATION")))
             connect = False
+        contador += 1
 
 def searchForHighConfidenceImage(imagem):
     print("Procurando imagem em searchForHighConfidenceImage: "+ imagem)
