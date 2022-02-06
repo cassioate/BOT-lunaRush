@@ -204,8 +204,9 @@ while True:
         pyautogui.keyDown("ctrl")
         pyautogui.press("f5")
         pyautogui.keyUp("ctrl")
-        print("Entrando em modo de espera por 1h:30m")
         timeSleep = random.randint(5500, 11000)
+        print("Entrando em modo de espera por:")
+        print(timeSleep)
         time.sleep(timeSleep)
     except BaseException as err:
         print("Ocorreu um ERRO:")
