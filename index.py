@@ -15,6 +15,7 @@ def conectarFunc():
     modoChefeClick = False
     bossDisponivelClick = False
     reiniciarAPagina()
+    time.sleep(4)
     while connect == True:
         if contador == 50:
             raise Exception("Erro ao tentar realizar o login")
@@ -35,14 +36,16 @@ def conectarFunc():
 
 # 100%
 def searchForHighConfidenceImage(imagem):
+    print('*' + '-' * 100 + '*')
     print('Utiliando a func searchForHighConfidenceImage: '+ imagem)
     contadorProcurarImagem = 0
     x, y = None, None
     while x == None:
         x, y = procurarLocalizacaoDaImagemPelosEixos(imagem)
         contadorProcurarImagem += 1
-        if contadorProcurarImagem >= 10:
+        if contadorProcurarImagem >= 15:
             raise Exception('Erro ao achar a imagem: ' + imagem)
+    print('*' + '-' * 100 + '*')
     return x, y
 
 # 100%
@@ -57,7 +60,6 @@ def procurarImagemSemRetornarErro(imagem):
             print('Achei a imagem: ' + str(img))
             return True
         contador += 1
-        print(contador)
         if contador >= 5:
             img = True
     print('Não consegui encontrar a imagem: ' + imagem)
@@ -86,7 +88,7 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
                 randomVar = random.randint(1, 10)
                 x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
                 if x != None:
-                    x, y = x-(randomVar/2)
+                    x, y = x-(randomVar/2), y-(randomVar/2)
                     x, y = x+randomVar, y+randomVar
                     return x, y
                 else:
@@ -199,6 +201,7 @@ def removeAndAddTriple(i):
 def removeVerify():
     while procurarImagemSemRetornarErro("Verificado"):
         pyautogui.click(searchForHighConfidenceImage("Verificado"), duration = float(os.getenv("DURATION")))
+        time.sleep(5)
 
 # 100%
 def toHunt():
