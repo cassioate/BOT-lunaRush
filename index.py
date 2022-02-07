@@ -22,8 +22,13 @@ def conectarFunc():
         if metamaskClick == False and procurarImagemSemRetornarErro("metamask"):
             pyautogui.click(searchForHighConfidenceImage("metamask"), duration = durationChoosed())
             metamaskClick = True
-        if assinarClick == False and metamaskClick == True and procurarImagemSemRetornarErro("assinar"):
-            pyautogui.click(searchForHighConfidenceImage("assinar"), duration = durationChoosed())
+        if assinarClick == False and metamaskClick == True and (procurarImagemSemRetornarErro("assinar") or procurarImagemSemRetornarErro("metamaskNotification")):
+            if procurarImagemSemRetornarErro("assinar"):
+                pyautogui.click(searchForHighConfidenceImage("assinar"), duration = durationChoosed())
+            elif procurarImagemSemRetornarErro("metamaskNotification"):
+                pyautogui.click(searchForHighConfidenceImage("metamaskNotification"), duration = durationChoosed())
+                time.sleep(5)
+                pyautogui.click(searchForHighConfidenceImage("assinar"), duration = durationChoosed())
             assinarClick = True
         if modoChefeClick == False and assinarClick == True and metamaskClick == True and procurarImagemSemRetornarErro("entrarNoModoCacaAoChefe"):
             pyautogui.click(searchForHighConfidenceImage("entrarNoModoCacaAoChefe"), duration = durationChoosed()) 
@@ -70,7 +75,7 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
     contador = 0
     while contador < 10:
 ###########################################
-        if imagem == 'guerreiro':
+        if imagem == 'guerreiro' or imagem == 'metamaskNotification':
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
                 x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
