@@ -68,7 +68,7 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
     contador = 0
     while contador < 10:
 ###########################################
-        if imagem == 'guerreiro' or imagem == 'x':
+        if imagem == 'guerreiro':
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
                 x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
@@ -80,10 +80,10 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
             else:
                 contador += 1
 ############################################
-        if imagem == 'abrirMenuGuerreiro' or imagem == 'fecharMenuGuerreiro':
+        if imagem == 'abrirMenuGuerreiro' or imagem == 'fecharMenuGuerreiro' or imagem == 'x':
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
-                randomVar = random.randint(1, 6)
+                randomVar = random.randint(1, 10)
                 x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
                 if x != None:
                     x, y = x-(randomVar/2)
