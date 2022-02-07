@@ -12,6 +12,8 @@ import random
 # print(img)
 # time.sleep(2)
 # print(pyautogui.position())
+# while True:
+#     pyautogui.moveTo(random.uniform(0, 1000), random.uniform(0, 1000), duration = random.uniform(1, 10))
 
 
 
