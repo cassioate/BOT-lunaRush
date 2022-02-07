@@ -101,13 +101,16 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
                 confidence = os.getenv("CONFIDENCE")
                 randomVarX = random.randint(1, float(os.getenv("RandomVarEixoX")))
                 randomVarY = random.randint(1, float(os.getenv("RandomVarEixoY")))
-                x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
-                if x != None:
-                    x, y = x-(float(os.getenv("RandomVarEixoX"))/2), y-float(os.getenv("RandomVarEixoY"))/2
-                    x, y = x+randomVarX, y+randomVarY
-                    return x, y
-                else:
-                    print('Erro nas linhas 82-85 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+                try:
+                    x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
+                    if x != None:
+                        x, y = x-(float(os.getenv("RandomVarEixoX"))/2), y-float(os.getenv("RandomVarEixoY"))/2
+                        x, y = x+randomVarX, y+randomVarY
+                        return x, y
+                    else:
+                        print('Erro nas linhas 82-85 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+                except:
+                    print("Erro ao procurar imagem: " + imagem)
             else:
                 contador += 1
     return None, None
@@ -235,6 +238,8 @@ def searchForResult():
     clickAlready = False
     loop = True
     while loop:
+        time.sleep(5)
+        loop = procurarImagemSemRetornarErro("bossLoop")
         if clickAlready == False:
             pyautogui.click(searchForHighConfidenceImage("VS"), duration = float(os.getenv("DURATION")))
             clickAlready = True
@@ -251,7 +256,6 @@ def searchForResult():
             time.sleep(10)
             if procurarImagemSemRetornarErro("bossDisponivel"):
                 pyautogui.click(searchForHighConfidenceImage("bossDisponivel"), duration = float(os.getenv("DURATION")))
-        loop = procurarImagemSemRetornarErro("bossLoop")
 
 # 100%
 def selectHeroInTheMenu():
