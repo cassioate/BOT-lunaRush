@@ -296,10 +296,14 @@ while True:
         reiniciarAPagina()
         timeSleep = random.randint(5500, 11000)
         print("Entrando em modo de espera por: "+ str(timeSleep) + " Segundos")
-        for i in range(timeSleep):
+        contador = 0
+        while contador < timeSleep:
             time.sleep(1)
-            if i % 5 == 0:
-                pyautogui.moveTo(random.randint(0, 1000), random.randint(0, 1000))
-        # time.sleep(timeSleep)
+            if contador % 30 == 0:
+                durationRange = random.uniform(1, 10)
+                timeAcrescimo = durationRange // 1
+                contador += timeAcrescimo
+                pyautogui.moveTo(random.uniform(0, 1000), random.uniform(0, 1000), duration = durationRange)
+            contador += 1
     except BaseException as err:
         print("Ocorreu um ERRO: " + str(err))
