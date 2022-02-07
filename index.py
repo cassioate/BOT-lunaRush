@@ -14,9 +14,7 @@ def conectarFunc():
     assinarClick = False
     modoChefeClick = False
     bossDisponivelClick = False
-    pyautogui.keyDown("ctrl")
-    pyautogui.press("f5")
-    pyautogui.keyUp("ctrl")
+    reiniciarAPagina()
     while connect == True:
         if contador == 50:
             raise Exception("Erro ao tentar realizar o login")
@@ -69,7 +67,8 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
     print('Utiliando a func procurarLocalizacaoDaImagemPelosEixos: ' + imagem)
     contador = 0
     while contador < 10:
-        if imagem == 'guerreiro' or imagem == 'x' or imagem == 'abrirMenuGuerreiro' or imagem == 'fecharMenuGuerreiro':
+###########################################
+        if imagem == 'guerreiro' or imagem == 'x':
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
                 x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
@@ -80,6 +79,21 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
                     print('Erro nas linhas 70-71 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
             else:
                 contador += 1
+############################################
+        if imagem == 'abrirMenuGuerreiro' or imagem == 'fecharMenuGuerreiro':
+            if procurarImagemSemRetornarErro(imagem):
+                confidence = os.getenv("CONFIDENCE")
+                randomVar = random.randint(1, 6)
+                x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
+                if x != None:
+                    x, y = x-(randomVar/2)
+                    x, y = x+randomVar, y+randomVar
+                    return x, y
+                else:
+                    print('Erro nas linhas 82-85 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+            else:
+                contador += 1
+###########################################
         else:        
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
@@ -245,6 +259,11 @@ def dragInTheMenuOfHeros():
     pyautogui.mouseUp(button='left')
     time.sleep(2)
 
+def reiniciarAPagina():
+    pyautogui.keyDown("ctrl")
+    pyautogui.press("f5")
+    pyautogui.keyUp("ctrl")
+
 #CONNECT
 time.sleep(2)
 # 100%
@@ -252,12 +271,9 @@ while True:
     try:
         conectarFunc()
         toHunt()
-        pyautogui.keyDown("ctrl")
-        pyautogui.press("f5")
-        pyautogui.keyUp("ctrl")
+        reiniciarAPagina()
         timeSleep = random.randint(5500, 11000)
         print("Entrando em modo de espera por: "+ str(timeSleep) + " Segundos")
         time.sleep(timeSleep)
     except BaseException as err:
-        print("Ocorreu um ERRO:")
-        print(err)
+        print("Ocorreu um ERRO: " + str(err))
