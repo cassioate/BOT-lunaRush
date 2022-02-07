@@ -15,7 +15,6 @@ def conectarFunc():
     modoChefeClick = False
     bossDisponivelClick = False
     reiniciarAPagina()
-    time.sleep(4)
     while connect == True:
         if contador == 50:
             raise Exception("Erro ao tentar realizar o login")
@@ -62,7 +61,7 @@ def procurarImagemSemRetornarErro(imagem):
     while img == None:
         img = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
         if img != None:
-            print('Achei a imagem: ' + str(img))
+            print('Achei a imagem: ' + imagem)
             return True
         contador += 1
         if contador >= 5:
@@ -78,39 +77,48 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
         if imagem == 'guerreiro' or imagem == 'metamaskNotification':
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
-                x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
-                loop = False
-                if x != None:
-                    return x, y
-                else:
-                    print('Erro nas linhas 70-71 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+                try:
+                    x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
+                    loop = False
+                    if x != None:
+                        print('Clicando em: ' + str(x)+ ', ' + str(y))
+                        return x, y
+                    else:
+                        print('Erro nas linhas 70-71 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+                except:
+                    print("Erro ao procurar imagem: " + imagem)            
             else:
                 contador += 1
 ############################################
         if imagem == 'abrirMenuGuerreiro' or imagem == 'fecharMenuGuerreiro' or imagem == 'x':
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
-                randomVar = random.randint(1, 10)
-                x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
-                if x != None:
-                    x, y = x-(randomVar/2), y-(randomVar/2)
-                    x, y = x+randomVar, y+randomVar
-                    return x, y
-                else:
-                    print('Erro nas linhas 82-85 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+                randomVar = random.randint(0, 10)
+                try:
+                    x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
+                    if x != None:
+                        x, y = x-(randomVar/2), y-(randomVar/2)
+                        x, y = x+randomVar, y+randomVar
+                        print('Clicando em: ' + str(x)+ ', ' + str(y))
+                        return x, y
+                    else:
+                        print('Erro nas linhas 82-85 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+                except:
+                    print("Erro ao procurar imagem: " + imagem)                
             else:
                 contador += 1
 ###########################################
         else:        
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
-                randomVarX = random.randint(1, float(os.getenv("RandomVarEixoX")))
-                randomVarY = random.randint(1, float(os.getenv("RandomVarEixoY")))
+                randomVarX = random.randint(0, float(os.getenv("RandomVarEixoX")))
+                randomVarY = random.randint(0, float(os.getenv("RandomVarEixoY")))
                 try:
                     x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
                     if x != None:
                         x, y = x-(float(os.getenv("RandomVarEixoX"))/2), y-float(os.getenv("RandomVarEixoY"))/2
                         x, y = x+randomVarX, y+randomVarY
+                        print('Clicando em: ' + str(x)+ ', ' + str(y))
                         return x, y
                     else:
                         print('Erro nas linhas 82-85 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
@@ -166,43 +174,23 @@ def selectTriple(triple):
         selectHero(x+100, y+370)
         selectHero(x+200, y+370)
 
+def clickHeroinaRemove(x, y):
+    for i in range(x, y):
+        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(i)), duration = durationChoosed())
+        time.sleep(4)
+
 # 100%
 def removeTheTriple(triple):
     if triple == 0:
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(1)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(2)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(3)), duration = durationChoosed())
-        time.sleep(4)
+        clickHeroinaRemove(1, 4)
     elif triple == 1:
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(4)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(5)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(6)), duration = durationChoosed())
-        time.sleep(4)
+        clickHeroinaRemove(4, 7)
     elif triple == 2:
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(7)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(8)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(9)), duration = durationChoosed())
-        time.sleep(4)
+        clickHeroinaRemove(7, 10)
     elif triple == 3:
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(10)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(11)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(12)), duration = durationChoosed())
-        time.sleep(4)
+        clickHeroinaRemove(10, 13)
     elif triple == 4:
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(13)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(14)), duration = durationChoosed())
-        time.sleep(4)
-        pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(15)), duration = durationChoosed())
-        time.sleep(4)
+        clickHeroinaRemove(13, 15)
 
 # 100%
 def removeAndAddTriple(i):
@@ -236,9 +224,11 @@ def toHunt():
         closedMenuOfHeroes()
         while contador < 4:
             pyautogui.click(searchForHighConfidenceImage("cacarChefe"), duration = durationChoosed())
-            time.sleep(5)
+            time.sleep(10)
             if procurarImagemSemRetornarErro("AvisoPrevio"):
-                pyautogui.click(searchForHighConfidenceImage("x"), duration = durationChoosed())
+                while procurarImagemSemRetornarErro("AvisoPrevio"):
+                    pyautogui.click(searchForHighConfidenceImage("x"), duration = durationChoosed())
+                    print("cliquei no x")
                 contador = 4               
             if contador < 4:
                 searchForResult()
@@ -291,6 +281,7 @@ def reiniciarAPagina():
     pyautogui.keyDown("ctrl")
     pyautogui.press("f5")
     pyautogui.keyUp("ctrl")
+    time.sleep(10)
 
 def durationChoosed():
     durationChoosed = float(os.getenv("DURATION")) + round(random.uniform(0,3), 10)
@@ -298,7 +289,6 @@ def durationChoosed():
 
 #CONNECT
 time.sleep(2)
-# 100%
 while True:
     try:
         conectarFunc()
