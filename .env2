@@ -6,4 +6,4 @@ RandomVarEixoX=80
 RandomVarEixoY=40
 
 #Modificar range de Aleatoriedade do click nos botões de seleção dos guerreiros
-RandomVarSelectTriple=80
+RandomVarSelectTriple=66

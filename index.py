@@ -162,23 +162,33 @@ def selectTriple(triple):
 def removeTheTriple(triple):
     if triple == 0:
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(1)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(2)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(3)), duration = float(os.getenv("DURATION")))
     elif triple == 1:
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(4)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(5)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(6)), duration = float(os.getenv("DURATION")))
     elif triple == 2:
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(7)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(8)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(9)), duration = float(os.getenv("DURATION")))
     elif triple == 3:
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(10)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(11)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(12)), duration = float(os.getenv("DURATION")))
     elif triple == 4:
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(13)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(14)), duration = float(os.getenv("DURATION")))
+        time.sleep(4)
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(15)), duration = float(os.getenv("DURATION")))
 
 # 100%
@@ -212,10 +222,10 @@ def toHunt():
         closedMenuOfHeroes()
         while contador < 4:
             pyautogui.click(searchForHighConfidenceImage("cacarChefe"), duration = float(os.getenv("DURATION")))
+            time.sleep(5)
             if procurarImagemSemRetornarErro("AvisoPrevio"):
                 pyautogui.click(searchForHighConfidenceImage("x"), duration = float(os.getenv("DURATION")))
                 contador = 4               
-            time.sleep(5)
             if contador < 4:
                 searchForResult()
             contador += 1
@@ -225,7 +235,6 @@ def searchForResult():
     clickAlready = False
     loop = True
     while loop:
-        loop = procurarImagemSemRetornarErro("bossLoop")
         if clickAlready == False:
             pyautogui.click(searchForHighConfidenceImage("VS"), duration = float(os.getenv("DURATION")))
             clickAlready = True
@@ -242,6 +251,7 @@ def searchForResult():
             time.sleep(10)
             if procurarImagemSemRetornarErro("bossDisponivel"):
                 pyautogui.click(searchForHighConfidenceImage("bossDisponivel"), duration = float(os.getenv("DURATION")))
+        loop = procurarImagemSemRetornarErro("bossLoop")
 
 # 100%
 def selectHeroInTheMenu():
