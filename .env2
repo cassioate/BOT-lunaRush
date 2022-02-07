@@ -1,2 +1,9 @@
 CONFIDENCE=0.9
 DURATION=2.5
+
+#Modificar range de Aleatoriedade do click nos botões gerais
+RandomVarEixoX=80
+RandomVarEixoY=40
+
+#Modificar range de Aleatoriedade do click nos botões de seleção dos guerreiros
+RandomVarSelectTriple=80

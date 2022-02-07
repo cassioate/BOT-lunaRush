@@ -6,62 +6,100 @@ import os
 
 dotenv.load_dotenv()
 
+# 100%
 def conectarFunc():
     contador = 0
     connect = True
+    metamaskClick = False
+    assinarClick = False
+    modoChefeClick = False
+    bossDisponivelClick = False
     pyautogui.keyDown("ctrl")
     pyautogui.press("f5")
     pyautogui.keyUp("ctrl")
     while connect == True:
         if contador == 50:
             raise Exception("Erro ao tentar realizar o login")
-        if procurarImagemSemRetornarErro("metamask"):
+        if metamaskClick == False and procurarImagemSemRetornarErro("metamask"):
             pyautogui.click(searchForHighConfidenceImage("metamask"), duration = float(os.getenv("DURATION")))
-        if procurarImagemSemRetornarErro("assinar"):
+            metamaskClick = True
+        if assinarClick == False and metamaskClick == True and procurarImagemSemRetornarErro("assinar"):
             pyautogui.click(searchForHighConfidenceImage("assinar"), duration = float(os.getenv("DURATION")))
-        if procurarImagemSemRetornarErro("entrarNoModoCacaAoChefe"):
+            assinarClick = True
+        if modoChefeClick == False and assinarClick == True and metamaskClick == True and procurarImagemSemRetornarErro("entrarNoModoCacaAoChefe"):
             pyautogui.click(searchForHighConfidenceImage("entrarNoModoCacaAoChefe"), duration = float(os.getenv("DURATION"))) 
-        if procurarImagemSemRetornarErro("bossDisponivel"):
+            modoChefeClick = True
+        if bossDisponivelClick == False and modoChefeClick == True and assinarClick == True and metamaskClick == True and procurarImagemSemRetornarErro("bossDisponivel"):
             pyautogui.click(searchForHighConfidenceImage("bossDisponivel"), duration = float(os.getenv("DURATION")))
+            bossDisponivelClick = True
             connect = False
         contador += 1
 
+# 100%
 def searchForHighConfidenceImage(imagem):
-    print("Procurando imagem em searchForHighConfidenceImage: "+ imagem)
+    print('Utiliando a func searchForHighConfidenceImage: '+ imagem)
     contadorProcurarImagem = 0
-    img = None
+    x, y = None, None
+    while x == None:
+        x, y = procurarLocalizacaoDaImagemPelosEixos(imagem)
+        contadorProcurarImagem += 1
+        if contadorProcurarImagem >= 10:
+            raise Exception('Erro ao achar a imagem: ' + imagem)
+    return x, y
+
+# 100%
+def procurarImagemSemRetornarErro(imagem):
+    print('Utiliando a func procurarImagemSemRetornarErro: '+ imagem)
     confidence = os.getenv("CONFIDENCE")
-    loading = True
+    img = None
+    contador = 0
     while img == None:
         img = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
-        contadorProcurarImagem += 1
-        if contadorProcurarImagem >= 200:
-            raise Exception('Erro ao achar a imagem: ' + imagem)
-    return img
-
-def procurarImagemSemRetornarErro(imagem):
-    loop = True
-    contador = 0
-    time.sleep(3)
-    confidence = os.getenv("CONFIDENCE")
-    print("Procurando imagem em procurarImagemSemRetornarErro: "+ imagem)
-    img = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
-    print(img)
-    if img != None:
-        return True
+        if img != None:
+            print('Achei a imagem: ' + str(img))
+            return True
+        contador += 1
+        print(contador)
+        if contador >= 5:
+            img = True
+    print('Não consegui encontrar a imagem: ' + imagem)
     return False
 
 def procurarLocalizacaoDaImagemPelosEixos(imagem):
-    if procurarImagemSemRetornarErro(imagem):
-        confidence = os.getenv("CONFIDENCE")
-        x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
-        return x, y
-    else:
-        return None, None
+    print('Utiliando a func procurarLocalizacaoDaImagemPelosEixos: ' + imagem)
+    contador = 0
+    while contador < 10:
+        if imagem == 'guerreiro' or imagem == 'x' or imagem == 'abrirMenuGuerreiro' or imagem == 'fecharMenuGuerreiro':
+            if procurarImagemSemRetornarErro(imagem):
+                confidence = os.getenv("CONFIDENCE")
+                x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
+                loop = False
+                if x != None:
+                    return x, y
+                else:
+                    print('Erro nas linhas 70-71 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+            else:
+                contador += 1
+        else:        
+            if procurarImagemSemRetornarErro(imagem):
+                confidence = os.getenv("CONFIDENCE")
+                randomVarX = random.randint(1, float(os.getenv("RandomVarEixoX")))
+                randomVarY = random.randint(1, float(os.getenv("RandomVarEixoY")))
+                x, y = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
+                if x != None:
+                    x, y = x-(float(os.getenv("RandomVarEixoX"))/2), y-float(os.getenv("RandomVarEixoY"))/2
+                    x, y = x+randomVarX, y+randomVarY
+                    return x, y
+                else:
+                    print('Erro nas linhas 82-85 do codigo, o X está voltando None, mesmo após ter sido bem sucedido em "procurarImagemSemRetornarErro"')
+            else:
+                contador += 1
+    return None, None
 
 # LUNA RUSH
 #####################################################
 
+# 100%
 def selectBoss(boss):
     contador = 0
     for i in range(20):
@@ -73,11 +111,16 @@ def selectBoss(boss):
                 contador = i-1
                 return contador
 
+# 100%
 def selectHero(x, y):
     pyautogui.click(x, y, duration = float(os.getenv("DURATION")))
 
+# 100%
 def selectTriple(triple):
+    randomVar = random.randint(1, float(os.getenv("RandomVarSelectTriple")))
     x, y = procurarLocalizacaoDaImagemPelosEixos("guerreiro")
+    x, y = x-(float(os.getenv("RandomVarSelectTriple"))/2), y-(float(os.getenv("RandomVarSelectTriple"))/2)
+    x, y = x+randomVar, y+randomVar
     if triple == 0:
         selectHero(x, y+100)
         selectHero(x+100, y+100)
@@ -99,6 +142,7 @@ def selectTriple(triple):
         selectHero(x+100, y+370)
         selectHero(x+200, y+370)
 
+# 100%
 def removeTheTriple(triple):
     if triple == 0:
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(1)), duration = float(os.getenv("DURATION")))
@@ -121,16 +165,14 @@ def removeTheTriple(triple):
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(14)), duration = float(os.getenv("DURATION")))
         pyautogui.click(searchForHighConfidenceImage("heroinas/heroinaRemove"+str(15)), duration = float(os.getenv("DURATION")))
 
+# 100%
 def removeAndAddTriple(i):
     if i == 0:
+        removeVerify()
         dragInTheMenuOfHeros()
-        if procurarImagemSemRetornarErro("heroinas/heroinaRemove15"):
-            removeTheTriple(4)
-            closedMenuOfHeroes()
-            selectHeroInTheMenu()
-        else:
-            closedMenuOfHeroes()
-            selectHeroInTheMenu()
+        removeVerify()
+        closedMenuOfHeroes()
+        selectHeroInTheMenu()
         #REMOVENDO TRIPLA ANTERIOR
     if i > 0:
         removeTheTriple(i-1)
@@ -139,6 +181,12 @@ def removeAndAddTriple(i):
     selectTriple(i) 
     time.sleep(1)   
 
+# 100%
+def removeVerify():
+    while procurarImagemSemRetornarErro("Verificado"):
+        pyautogui.click(searchForHighConfidenceImage("Verificado"), duration = float(os.getenv("DURATION")))
+
+# 100%
 def toHunt():
     for i in range(5):
         contador = 1
@@ -155,7 +203,7 @@ def toHunt():
                 searchForResult()
             contador += 1
             
-
+# 100%
 def searchForResult():
     clickAlready = False
     loop = True
@@ -178,15 +226,17 @@ def searchForResult():
             if procurarImagemSemRetornarErro("bossDisponivel"):
                 pyautogui.click(searchForHighConfidenceImage("bossDisponivel"), duration = float(os.getenv("DURATION")))
 
-
+# 100%
 def selectHeroInTheMenu():
     pyautogui.click(searchForHighConfidenceImage("abrirMenuGuerreiro"), duration = float(os.getenv("DURATION")))
     time.sleep(4)
 
+# 100%
 def closedMenuOfHeroes():
     pyautogui.click(searchForHighConfidenceImage("fecharMenuGuerreiro"), duration = float(os.getenv("DURATION")))
     time.sleep(4)
 
+# 100%
 def dragInTheMenuOfHeros():
     x, y = procurarLocalizacaoDaImagemPelosEixos("guerreiro")
     pyautogui.moveTo(x, y+370)
@@ -197,6 +247,7 @@ def dragInTheMenuOfHeros():
 
 #CONNECT
 time.sleep(2)
+# 100%
 while True:
     try:
         conectarFunc()
@@ -205,8 +256,7 @@ while True:
         pyautogui.press("f5")
         pyautogui.keyUp("ctrl")
         timeSleep = random.randint(5500, 11000)
-        print("Entrando em modo de espera por:")
-        print(timeSleep)
+        print("Entrando em modo de espera por: "+ str(timeSleep) + " Segundos")
         time.sleep(timeSleep)
     except BaseException as err:
         print("Ocorreu um ERRO:")
