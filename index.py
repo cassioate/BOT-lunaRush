@@ -296,6 +296,8 @@ while True:
         reiniciarAPagina()
         timeSleep = random.randint(5500, 11000)
         print("Entrando em modo de espera por: "+ str(timeSleep) + " Segundos")
+        
+        # FAZER O MOUSE MOVER NO TEMPO DE ESPERA
         contador = 0
         while contador < timeSleep:
             time.sleep(1)
@@ -305,5 +307,7 @@ while True:
                 contador += timeAcrescimo
                 pyautogui.moveTo(random.uniform(0, 1000), random.uniform(0, 1000), duration = durationRange)
             contador += 1
+
+        # time.sleep(timeSleep)
     except BaseException as err:
         print("Ocorreu um ERRO: " + str(err))
