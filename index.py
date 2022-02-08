@@ -298,16 +298,16 @@ while True:
         print("Entrando em modo de espera por: "+ str(timeSleep) + " Segundos")
         
         # FAZER O MOUSE MOVER NO TEMPO DE ESPERA
-        contador = 0
-        while contador < timeSleep:
-            time.sleep(1)
-            if contador % 30 == 0:
-                durationRange = random.uniform(1, 10)
-                timeAcrescimo = durationRange // 1
-                contador += timeAcrescimo
-                pyautogui.moveTo(random.uniform(0, 1000), random.uniform(0, 1000), duration = durationRange)
-            contador += 1
+        # contador = 0
+        # while contador < timeSleep:
+        #     time.sleep(1)
+        #     if contador % 30 == 0:
+        #         durationRange = random.uniform(1, 10)
+        #         timeAcrescimo = durationRange // 1
+        #         contador += timeAcrescimo
+        #         pyautogui.moveTo(random.uniform(0, 1000), random.uniform(0, 1000), duration = durationRange)
+        #     contador += 1
 
-        # time.sleep(timeSleep)
+        time.sleep(timeSleep)
     except BaseException as err:
         print("Ocorreu um ERRO: " + str(err))
