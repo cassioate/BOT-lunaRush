@@ -14,6 +14,8 @@ def conectarFunc():
     assinarClick = False
     modoChefeClick = False
     bossDisponivelClick = False
+    pyautogui.click(searchForHighConfidenceImage("LunaRushLogo"), duration = durationChoosed())
+    time.sleep(2)
     reiniciarAPagina()
     while connect == True:
         if contador == 50:
@@ -58,6 +60,8 @@ def procurarImagemSemRetornarErro(imagem):
     confidence = os.getenv("CONFIDENCE")
     img = None
     contador = 0
+    if (imagem == "metamaskNotification"):
+        time.sleep(10)
     while img == None:
         img = pyautogui.locateCenterOnScreen('./assets/'+ imagem+'.png', confidence=confidence)
         if img != None:
@@ -287,7 +291,6 @@ def durationChoosed():
     durationChoosed = float(os.getenv("DURATION")) + round(random.uniform(0,3), 10)
     return durationChoosed
 
-#CONNECT
 time.sleep(2)
 while True:
     try:
