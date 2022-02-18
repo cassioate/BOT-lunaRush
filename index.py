@@ -42,7 +42,7 @@ def conectarFunc():
 
 # 100%
 def searchForHighConfidenceImage(imagem):
-    print('*' + '-' * 100 + '*')
+    print('*' + '-' * 50 + '*')
     print('Utiliando a func searchForHighConfidenceImage: '+ imagem)
     contadorProcurarImagem = 0
     x, y = None, None
@@ -51,7 +51,7 @@ def searchForHighConfidenceImage(imagem):
         contadorProcurarImagem += 1
         if contadorProcurarImagem >= 15:
             raise Exception('Erro ao achar a imagem: ' + imagem)
-    print('*' + '-' * 100 + '*')
+    print('*' + '-' * 50 + '*')
     return x, y
 
 # 100%
@@ -303,7 +303,7 @@ while True:
         for i in range(timeSleep):
             moveRange = round(random.uniform(100,700), 10)
             moveRange2 = round(random.uniform(100,700), 10)
-            pyautogui.moveTo(moveRange, moveRange2m, duration = 1)
+            pyautogui.moveTo(moveRange, moveRange2, duration = 1)
             print(i)
         
         # FAZER O MOUSE MOVER NO TEMPO DE ESPERA

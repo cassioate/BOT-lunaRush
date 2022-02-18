@@ -28,3 +28,10 @@ import random
 
 
 # pyautogui.click(pyautogui.locateCenterOnScreen('./assets/metamask.png', confidence=0.9), duration = 3)
+
+
+for i in range(1000):
+    moveRange = round(random.uniform(100,700), 10)
+    moveRange2 = round(random.uniform(100,700), 10)
+    pyautogui.moveTo(moveRange, moveRange2, duration = 1)
+    print(i)
