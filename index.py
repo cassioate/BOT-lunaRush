@@ -232,6 +232,7 @@ def toHunt():
             if procurarImagemSemRetornarErro("AvisoPrevio"):
                 while procurarImagemSemRetornarErro("AvisoPrevio"):
                     pyautogui.click(searchForHighConfidenceImage("x"), duration = durationChoosed())
+                    time.sleep(3)
                     print("cliquei no x")
                 contador = 4               
             if contador < 4:
@@ -299,6 +300,10 @@ while True:
         reiniciarAPagina()
         timeSleep = random.randint(5500, 11000)
         print("Entrando em modo de espera por: "+ str(timeSleep) + " Segundos")
+        for i in range(timeSleep):
+            moveRange = round(random.uniform(100,700), 10)
+            moveRange2 = round(random.uniform(100,700), 10)
+            pyautogui.moveTo(moveRange, moveRange2m, duration = 1)
         
         # FAZER O MOUSE MOVER NO TEMPO DE ESPERA
         # contador = 0
@@ -310,7 +315,7 @@ while True:
         #         contador += timeAcrescimo
         #         pyautogui.moveTo(random.uniform(0, 1000), random.uniform(0, 1000), duration = durationRange)
         #     contador += 1
-
-        time.sleep(timeSleep)
+        # 
+        # time.sleep(timeSleep)
     except BaseException as err:
         print("Ocorreu um ERRO: " + str(err))
