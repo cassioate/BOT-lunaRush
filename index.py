@@ -304,7 +304,6 @@ while True:
             moveRange = round(random.uniform(100,700), 10)
             moveRange2 = round(random.uniform(100,700), 10)
             pyautogui.moveTo(moveRange, moveRange2, duration = 1)
-            print(i)
         
         # FAZER O MOUSE MOVER NO TEMPO DE ESPERA
         # contador = 0
