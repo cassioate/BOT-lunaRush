@@ -5,6 +5,31 @@ import dotenv
 import os
 
 dotenv.load_dotenv()
+# def closedAndOpenFirefox():
+#     xTelaBranca, yTelaBranca = searchForHighConfidenceImage("xTelaBranca")
+#     xTelaPreta, yTelaPreta = searchForHighConfidenceImage("CloseFirefox")
+#     if xTelaPreta != None or xTelaBranca != None:
+#         if xTelaPreta != None:
+#             pyautogui.click(xTelaPreta, yTelaPreta, duration = durationChoosed())
+#             time.sleep(5)
+#         if xTelaBranca != None:
+#             pyautogui.click(xTelaBranca, yTelaBranca, duration = durationChoosed())
+#             time.sleep(5)
+#         xfirefoxLogoOpen, yfirefoxLogoOpen = searchForHighConfidenceImage("FirefoxLogoOpen")
+#         if xfirefoxLogoOpen != None:
+#             pyautogui.click(xfirefoxLogoOpen, yfirefoxLogoOpen, duration = durationChoosed())
+#             time.sleep(5)
+#             xfirefoxCenter, yfirefoxCenter = searchForHighConfidenceImage("FirefoxCentroDaTela")
+#             if xfirefoxCenter != None:
+#                 pyautogui.click(xfirefoxCenter, yfirefoxCenter, duration = durationChoosed())      
+#                 time.sleep(5)     
+#                 xScam, yScam = searchForHighConfidenceImage("Scam")
+#                 if xScam != None:
+#                     pyautogui.click(xScam, yScam, duration = durationChoosed())
+#                     time.sleep(5)     
+#                     xLunaRushScam, yLunaRushScam = searchForHighConfidenceImage("LunaRushScam")
+#                     if xLunaRushScam != None:
+#                         pyautogui.click(xLunaRushScam, yLunaRushScam, duration = durationChoosed())
 
 # 100%
 def conectarFunc():
@@ -14,9 +39,9 @@ def conectarFunc():
     assinarClick = False
     modoChefeClick = False
     bossDisponivelClick = False
-    pyautogui.click(searchForHighConfidenceImage("LunaRushLogo"), duration = durationChoosed())
+    openTheLuna()
     time.sleep(2)
-    reiniciarAPagina()
+    # reiniciarAPagina()
     while connect == True:
         if contador == 50:
             raise Exception("Erro ao tentar realizar o login")
@@ -226,15 +251,31 @@ def toHunt():
         selectHeroInTheMenu()
         removeAndAddTriple(i)
         closedMenuOfHeroes()
+        avisoPrevioClick = False
         while contador < 4:
             pyautogui.click(searchForHighConfidenceImage("cacarChefe"), duration = durationChoosed())
-            time.sleep(10)
+            time.sleep(15)
             if procurarImagemSemRetornarErro("AvisoPrevio"):
                 while procurarImagemSemRetornarErro("AvisoPrevio"):
                     pyautogui.click(searchForHighConfidenceImage("x"), duration = durationChoosed())
-                    time.sleep(3)
+                    time.sleep(10)
                     print("cliquei no x")
-                contador = 4               
+                contador = 4  
+            elif procurarImagemSemRetornarErro("cacarChefe"):
+                for i in range(4):
+                    xChefe, yChefe = searchForHighConfidenceImage("cacarChefe")
+                    if xChefe != None:
+                        pyautogui.click(xChefe, yChefe, duration = durationChoosed())
+                        time.sleep(15)
+                        if procurarImagemSemRetornarErro("AvisoPrevio"):
+                            while procurarImagemSemRetornarErro("AvisoPrevio"):
+                                pyautogui.click(searchForHighConfidenceImage("x"), duration = durationChoosed())
+                                avisoPrevioClick = True
+                                time.sleep(3)
+                                print("cliquei no x")
+                            contador = 4 
+                if avisoPrevioClick == False and procurarImagemSemRetornarErro("cacarChefe"):
+                    raise Exception("Erro ao tentar clicar em 'caçar chefe'")
             if contador < 4:
                 searchForResult()
             contador += 1
@@ -288,6 +329,23 @@ def reiniciarAPagina():
     pyautogui.keyUp("ctrl")
     time.sleep(10)
 
+def closeThePage():
+    pyautogui.keyDown("ctrl")
+    pyautogui.press("w")
+    pyautogui.keyUp("ctrl")
+    time.sleep(5)
+
+def openTheLuna():
+    time.sleep(3)
+    pyautogui.click(searchForHighConfidenceImage("NewTab"), duration = durationChoosed())
+    pyautogui.keyDown("ctrl")
+    pyautogui.press("t")
+    pyautogui.keyUp("ctrl")
+    while not procurarImagemSemRetornarErro("lunaRushOpenBrowser"):
+        time.sleep(1)
+    pyautogui.click(searchForHighConfidenceImage("lunaRushOpenBrowser"), duration = durationChoosed())
+    time.sleep(15)
+    
 def durationChoosed():
     durationChoosed = float(os.getenv("DURATION")) + round(random.uniform(0,3), 10)
     return durationChoosed
@@ -297,7 +355,7 @@ while True:
     try:
         conectarFunc()
         toHunt()
-        reiniciarAPagina()
+        closeThePage()
         timeSleep = random.randint(5500, 11000)
         print("Entrando em modo de espera por: "+ str(timeSleep) + " Segundos")
         for i in range(timeSleep):
