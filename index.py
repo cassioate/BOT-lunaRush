@@ -44,6 +44,7 @@ def conectarFunc():
     # reiniciarAPagina()
     while connect == True:
         if contador == 50:
+            closeThePage()
             raise Exception("Erro ao tentar realizar o login")
         if metamaskClick == False and procurarImagemSemRetornarErro("metamask"):
             pyautogui.click(searchForHighConfidenceImage("metamask"), duration = durationChoosed())
@@ -75,6 +76,7 @@ def searchForHighConfidenceImage(imagem):
         x, y = procurarLocalizacaoDaImagemPelosEixos(imagem)
         contadorProcurarImagem += 1
         if contadorProcurarImagem >= 15:
+            closeThePage()
             raise Exception('Erro ao achar a imagem: ' + imagem)
     print('*' + '-' * 50 + '*')
     return x, y
@@ -103,7 +105,7 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
     contador = 0
     while contador < 10:
 ###########################################
-        if imagem == 'guerreiro' or imagem == 'metamaskNotification':
+        if imagem == 'guerreiro' or imagem == 'metamaskNotification' or imagem == 'metamaskWhitOutNotification' :
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
                 try:
@@ -275,6 +277,7 @@ def toHunt():
                                 print("cliquei no x")
                             contador = 4 
                 if avisoPrevioClick == False and procurarImagemSemRetornarErro("cacarChefe"):
+                    closeThePage()
                     raise Exception("Erro ao tentar clicar em 'caçar chefe'")
             if contador < 4:
                 searchForResult()
@@ -329,22 +332,52 @@ def reiniciarAPagina():
     pyautogui.keyUp("ctrl")
     time.sleep(10)
 
+# def closeThePage():
+#     time.sleep(2)
+#     pyautogui.keyDown("ctrl")
+#     pyautogui.press("w")
+#     pyautogui.keyUp("ctrl")
+#     time.sleep(5)
+
+# def openTheLuna():
+#     time.sleep(3)
+#     pyautogui.click(searchForHighConfidenceImage("NewTab"), duration = durationChoosed())
+#     time.sleep(2)
+#     pyautogui.keyDown("ctrl")
+#     pyautogui.press("t")
+#     pyautogui.keyUp("ctrl")
+#     while not procurarImagemSemRetornarErro("lunaRushOpenBrowser"):
+#         time.sleep(1)
+#     pyautogui.click(searchForHighConfidenceImage("lunaRushOpenBrowser"), duration = durationChoosed())
+#     time.sleep(15)
+
 def closeThePage():
+    time.sleep(2)
+    site_off = os.getenv("SITE_OFF")
+    x, y = procurarLocalizacaoDaImagemPelosEixos("metamaskWhitOutNotification")
+    pyautogui.click(x-500, y, duration=3)
+    time.sleep(2)
     pyautogui.keyDown("ctrl")
-    pyautogui.press("w")
+    pyautogui.press("a")
     pyautogui.keyUp("ctrl")
+    time.sleep(2)
+    pyautogui.write(site_off)
+    pyautogui.press("enter")
     time.sleep(5)
 
 def openTheLuna():
-    time.sleep(3)
-    pyautogui.click(searchForHighConfidenceImage("NewTab"), duration = durationChoosed())
+    time.sleep(2)
+    site_on = os.getenv("SITE_ON")
+    x, y = procurarLocalizacaoDaImagemPelosEixos("metamaskWhitOutNotification")
+    pyautogui.click(x-500, y, duration=3)
+    time.sleep(2)
     pyautogui.keyDown("ctrl")
-    pyautogui.press("t")
+    pyautogui.press("a")
     pyautogui.keyUp("ctrl")
-    while not procurarImagemSemRetornarErro("lunaRushOpenBrowser"):
-        time.sleep(1)
-    pyautogui.click(searchForHighConfidenceImage("lunaRushOpenBrowser"), duration = durationChoosed())
-    time.sleep(15)
+    time.sleep(2)
+    pyautogui.write(site_on)
+    pyautogui.press("enter")
+    time.sleep(5)
     
 def durationChoosed():
     durationChoosed = float(os.getenv("DURATION")) + round(random.uniform(0,3), 10)
@@ -363,17 +396,5 @@ while True:
             moveRange2 = round(random.uniform(100,700), 10)
             pyautogui.moveTo(moveRange, moveRange2, duration = 1)
         
-        # FAZER O MOUSE MOVER NO TEMPO DE ESPERA
-        # contador = 0
-        # while contador < timeSleep:
-        #     time.sleep(1)
-        #     if contador % 30 == 0:
-        #         durationRange = random.uniform(1, 10)
-        #         timeAcrescimo = durationRange // 1
-        #         contador += timeAcrescimo
-        #         pyautogui.moveTo(random.uniform(0, 1000), random.uniform(0, 1000), duration = durationRange)
-        #     contador += 1
-        # 
-        # time.sleep(timeSleep)
     except BaseException as err:
         print("Ocorreu um ERRO: " + str(err))
