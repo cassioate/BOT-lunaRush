@@ -33,6 +33,9 @@ dotenv.load_dotenv()
 
 # 100%
 def conectarFunc():
+    if not procurarImagemSemRetornarErro("MozilaLunaRush"):
+        pyautogui.click(searchForHighConfidenceImage("FirefoxLogoOpen"), duration = durationChoosed())
+        pyautogui.press("enter")
     contador = 0
     connect = True
     metamaskClick = False
