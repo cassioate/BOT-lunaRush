@@ -33,9 +33,15 @@ dotenv.load_dotenv()
 
 # 100%
 def conectarFunc():
-    if not procurarImagemSemRetornarErro("MozilaLunaRush"):
-        pyautogui.click(searchForHighConfidenceImage("FirefoxLogoOpen"), duration = durationChoosed())
+    if not procurarImagemSemRetornarErro("MozilaLunaRush") and not procurarImagemSemRetornarErro("MozilaLunaRush-2") and not procurarImagemSemRetornarErro("MozilaLunaRush-3") and not procurarImagemSemRetornarErro("MozilaLunaRush-4"):
+        x, y = None, None
+        if procurarImagemSemRetornarErro("FirefoxLogoOpen"):
+            x, y = searchForHighConfidenceImage("FirefoxLogoOpen")
+        elif procurarImagemSemRetornarErro("firefoxSelecionado"):
+            x, y = searchForHighConfidenceImage("firefoxSelecionado")
+        pyautogui.click(x, y, duration = durationChoosed())
         pyautogui.press("enter")
+        pyautogui.click(x+150, y, duration = durationChoosed())
     contador = 0
     connect = True
     metamaskClick = False
@@ -52,14 +58,18 @@ def conectarFunc():
         if metamaskClick == False and procurarImagemSemRetornarErro("metamask"):
             pyautogui.click(searchForHighConfidenceImage("metamask"), duration = durationChoosed())
             metamaskClick = True
-        if assinarClick == False and metamaskClick == True and (procurarImagemSemRetornarErro("assinar") or procurarImagemSemRetornarErro("metamaskNotification")):
-            if procurarImagemSemRetornarErro("assinar"):
-                pyautogui.click(searchForHighConfidenceImage("assinar"), duration = durationChoosed())
-            elif procurarImagemSemRetornarErro("metamaskNotification"):
-                pyautogui.click(searchForHighConfidenceImage("metamaskNotification"), duration = durationChoosed())
-                time.sleep(5)
-                pyautogui.click(searchForHighConfidenceImage("assinar"), duration = durationChoosed())
+        if metamaskClick == True and assinarClick == False and procurarImagemSemRetornarErro("entrar"):
+                x, y = searchForHighConfidenceImage("entrar")
+                pyautogui.click(x, y, duration = durationChoosed())
+                time.sleep(1)
+                pyautogui.click(x, y+150, duration = durationChoosed())
+                metamaskClick = False
+        if assinarClick == False and metamaskClick == True and procurarImagemSemRetornarErro("assinar"):
+            pyautogui.click(searchForHighConfidenceImage("assinar"), duration = durationChoosed())
             assinarClick = True
+        if assinarClick == False and metamaskClick == True and procurarImagemSemRetornarErro("metamaskNotification"):
+            pyautogui.click(searchForHighConfidenceImage("metamaskNotification"), duration = durationChoosed())
+            time.sleep(5)
         if modoChefeClick == False and assinarClick == True and metamaskClick == True and procurarImagemSemRetornarErro("entrarNoModoCacaAoChefe"):
             pyautogui.click(searchForHighConfidenceImage("entrarNoModoCacaAoChefe"), duration = durationChoosed()) 
             modoChefeClick = True
@@ -108,7 +118,7 @@ def procurarLocalizacaoDaImagemPelosEixos(imagem):
     contador = 0
     while contador < 10:
 ###########################################
-        if imagem == 'guerreiro' or imagem == 'metamaskNotification' or imagem == 'metamaskWhitOutNotification' :
+        if imagem == 'guerreiro' or imagem == 'metamaskNotification' or imagem == 'metamaskWhitOutNotification' or imagem == 'FirefoxLogoOpen' or imagem == 'firefoxSelecionado':
             if procurarImagemSemRetornarErro(imagem):
                 confidence = os.getenv("CONFIDENCE")
                 try:
@@ -388,7 +398,7 @@ def durationChoosed():
 
 time.sleep(2)
 while True:
-    try:
+    # try:
         conectarFunc()
         toHunt()
         closeThePage()
@@ -399,5 +409,5 @@ while True:
             moveRange2 = round(random.uniform(100,700), 10)
             pyautogui.moveTo(moveRange, moveRange2, duration = 1)
         
-    except BaseException as err:
-        print("Ocorreu um ERRO: " + str(err))
+    # except BaseException as err:
+    #     print("Ocorreu um ERRO: " + str(err))
